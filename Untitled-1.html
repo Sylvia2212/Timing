@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Stopwatch</title>
+    </head>
+    <style>
+        .clock { position: fixed;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%);}
+        .btn {position: fixed;
+              top: 65%;
+              left: 50%;
+              transform: translate(-50%, -50%);}
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>    
+    <body>
+        <div class="btn">
+            <button id="btnStart">Start</button>
+            <button id="btnStop" style="background-color: red;">Stop</button>
+            <button id="btnReset" style="background-color: cadetblue;">Reset</button>
+        </div>
+        <div class="clock">
+            <p style="font-size: 500%; font-weight: bold;">
+                <span id="hour">00</span>:
+                <span id="min">00</span>:
+                <span id="sec">00</span>:
+                <span id="msec">00</span>
+            </p>
+        </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var clock = function() {
+                    var cur_msec = parseFloat($("#msec").text()) + 1;
+                    if (cur_msec===100) {
+                        cur_msec = 0;
+                        var cur_sec = parseFloat($("#sec").text()) + 1;
+                        if (cur_sec === 60) {
+                            cur_sec = 0;
+                            var cur_min = parseFloat($("#min").text()) + 1;
+                            if (cur_min === 60) {
+                                cur_min = 0;
+                                var cur_hour = parseFloat($("#hour").text()) + 1;
+                                $("#hour").text(cur_hour.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
+                            } 
+                        $("#min").text(cur_min.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
+                        } 
+                        $("#sec").text(cur_sec.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
+                    }
+                    $("#msec").text(cur_msec.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
+                }
+                var set_clock;
+                $("body").on("click", "#btnStart", function () {
+                    set_clock = window.setInterval(clock, 10);
+                    console.log("testStar5t");
+                });
+                $("body").on("click", "#btnStop", function () {
+                    window.clearInterval(set_clock);
+                    console.log("test");
+                });
+                $("#btnReset").on("click", function () {
+                    window.clearInterval(set_clock);
+                    $("#msec").text("00");
+                    $("#sec").text("00");
+                    $("#min").text("00");
+                    $("#hour").text("00");
+                    console.log("test");
+                });
+            })
+            
+        </script>
+    </body>
+</html>
